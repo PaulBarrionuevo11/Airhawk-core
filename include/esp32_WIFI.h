@@ -1,5 +1,5 @@
-#ifndef ESP32_AIRHAWK_H
-#define ESP32_AIRHAWK_H
+#ifndef ESP32_AIRHAWK_WIFI_H
+#define ESP32_AIRHAWK_WIFI_H
 
 #include <WiFi.h>
 #include "stdint.h"
@@ -23,6 +23,7 @@ public:
     void start_server_communication();                                  // Handles first series of comm with server
     void transmit_data();                                               // Send data to python server
     uint32_t receive_data();                                            // Receive data from python server
+    void check_WIFI_status();
 };
 
 esp32_airhawk_WIFI::esp32_airhawk_WIFI(/* args */)
@@ -38,23 +39,8 @@ void esp32_airhawk_WIFI::start_AP()
     Serial.print("AP IP address: ");
     Serial.println(WiFi.softAPIP());
     delay(1500);
-    switch (WiFi.status()) {
-    case WL_CONNECTED:
-        Serial.println("Connected!");
-        break;
-    case WL_NO_SSID_AVAIL:
-        Serial.println("SSID not found!");
-        break;
-    case WL_CONNECT_FAILED:
-        Serial.println("Wrong password!");
-        break;
-    case WL_DISCONNECTED:
-        Serial.println("Disconnected from Wi-Fi!");
-        break;
-    default:
-        Serial.println("Other Wi-Fi error");
-        break;
-}
+    Serial.println(WiFi.status());
+    delay(1500);
 }
 
 void esp32_airhawk_WIFI::connect_WIFI(const char* s, const char* p)
@@ -85,5 +71,10 @@ esp32_airhawk_WIFI::~esp32_airhawk_WIFI()
 {
     // disconnect_WIFI();
 }
+
+void esp32_airhawk_WIFI::check_WIFI_status()
+{
+}
+
 
 #endif
